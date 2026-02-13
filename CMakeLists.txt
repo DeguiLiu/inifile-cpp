@@ -43,7 +43,7 @@ if(GENERATE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
 endif(GENERATE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
 
 if(${BUILD_TESTS})
-    add_subdirectory(test)
+    add_subdirectory(tests)
 endif(${BUILD_TESTS})
 
 if(${BUILD_EXAMPLES})

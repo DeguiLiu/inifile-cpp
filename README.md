@@ -1,9 +1,11 @@
 # inifile-cpp
-![License](https://img.shields.io/packagist/l/doctrine/orm.svg)
-[![CMake](https://github.com/Rookfighter/inifile-cpp/workflows/CMake/badge.svg)](https://github.com/Rookfighter/inifile-cpp/actions/workflows/cmake.yml)
-[![codecov](https://codecov.io/gh/Rookfighter/inifile-cpp/graph/badge.svg?token=39FL0C8NRK)](https://codecov.io/gh/Rookfighter/inifile-cpp)
 
-```inifile-cpp``` is a simple and easy to use single header-only ini file en- and decoder for C++.
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+[![CMake](https://github.com/DeguiLiu/inifile-cpp/actions/workflows/cmake.yml/badge.svg)](https://github.com/DeguiLiu/inifile-cpp/actions/workflows/cmake.yml)
+
+[中文文档](README_zh.md)
+
+`inifile-cpp` is a simple and easy to use single header-only ini file en- and decoder for C++.
 
 ## Install
 
@@ -21,9 +23,9 @@ or simply copy the header file into your project and include it directly.
 
 ## Usage
 
-For examples on how to use and extend ```inifile-cpp``` for your custom needs, please have a look at the ```examples/``` directory.
+For examples on how to use and extend `inifile-cpp` for your custom needs, please have a look at the `examples/` directory.
 
-```inifile-cpp``` allows loading data from any ```std::istream``` and requires a
+`inifile-cpp` allows loading data from any `std::istream` and requires a
 single function call or use the overloaded constructor.
 
 ```cpp
@@ -42,7 +44,7 @@ int main()
 }
 ```
 
-You can directly load ini-data from files by using the  ```load()``` function. It requires a file path
+You can directly load ini-data from files by using the `load()` function. It requires a file path
 and automatically parses its contents:
 
 ```cpp
@@ -56,7 +58,7 @@ int main()
 }
 ```
 
-You can enable decoding of multi-line values using the  ```setMultiLineValues(true)``` function.  If you do this, field values may be continued on the next line, after indentation.  Each line will be separated by the `\n` character in the final value, and the indentation will be removed.
+You can enable decoding of multi-line values using the `setMultiLineValues(true)` function.  If you do this, field values may be continued on the next line, after indentation.  Each line will be separated by the `\n` character in the final value, and the indentation will be removed.
 
 ```cpp
 #include <inicpp.h>
@@ -70,7 +72,7 @@ int main()
 }
 ```
 
-When duplicate fields are decoded the previous value is simply overwritten by default. You can disallow duplicate fields from being overwritten by using the ```allowOverwriteDuplicateFields(false)``` function. If you do this, an exception will be thrown if a duplicate field is found inside a section.
+When duplicate fields are decoded the previous value is simply overwritten by default. You can disallow duplicate fields from being overwritten by using the `allowOverwriteDuplicateFields(false)` function. If you do this, an exception will be thrown if a duplicate field is found inside a section.
 
 ```cpp
 #include <inicpp.h>
@@ -85,7 +87,7 @@ int main()
 }
 ```
 
-Sections and fields can be accessed using the index operator ```[]```.
+Sections and fields can be accessed using the index operator `[]`.
 The values can be converted to various native types:
 
 ```cpp
@@ -104,25 +106,25 @@ const char *myStr2 = myIni["Foo"]["myStr"].as<const char*>();
 
 Natively supported types are:
 
-* ```bool```
-* ```char```
-* ```unsigned char```
-* ```short```
-* ```unsigned short```
-* ```int```
-* ```unsigned int```
-* ```long```
-* ```unsigned long```
-* ```float```
-* ```double```
-* ```std::string```
-* ```const char *```
-* ```std::string_view```
+* `bool`
+* `char`
+* `unsigned char`
+* `short`
+* `unsigned short`
+* `int`
+* `unsigned int`
+* `long`
+* `unsigned long`
+* `float`
+* `double`
+* `std::string`
+* `const char *`
+* `std::string_view`
 
-Custom type conversions can be added by implementing specialized template of the ```ini::Convert<T>``` functor (see examples).
+Custom type conversions can be added by implementing specialized template of the `ini::Convert<T>` functor (see examples).
 
-Values can be assigned to ini fileds just by using the assignment operator.
-The content of the inifile can then be written to any ```std::ostream``` object.
+Values can be assigned to ini fields just by using the assignment operator.
+The content of the inifile can then be written to any `std::ostream` object.
 
 ```cpp
 #include <inicpp.h>
@@ -142,7 +144,7 @@ int main()
 }
 ```
 
-You can directly save ini-data to files by using the  ```save()``` function. It requires a file path
+You can directly save ini-data to files by using the `save()` function. It requires a file path
 and automatically stores the ini file contents:
 
 ```cpp
@@ -161,7 +163,7 @@ int main()
 }
 ```
 
-You can define custom type conversions for inifile-cpp which will be automatically used by the assignment operator and the ```as()``` method of ini fields, e.g. you can add support for ```std::vector``` (see also examples):
+You can define custom type conversions for inifile-cpp which will be automatically used by the assignment operator and the `as()` method of ini fields, e.g. you can add support for `std::vector` (see also examples):
 
 ```cpp
 // the conversion functor must live in the "ini" namespace
@@ -243,4 +245,4 @@ Make sure all CI checks pass, otherwise PRs will not be merged.
 
 ## License
 
-`inifile-cpp` is licensed under the [MIT license](https://github.com/Rookfighter/inifile-cpp/blob/main/LICENSE.txt)
+`inifile-cpp` is licensed under the [MIT license](LICENSE.txt).

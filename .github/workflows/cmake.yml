@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Check Format
-        run: 'find test/ examples/ include/ -iname "*.h" -o -iname "*.cpp" -print0 | xargs -0 clang-format --dry-run --Werror'
+        run: 'find tests/ examples/ include/ -iname "*.h" -o -iname "*.cpp" -print0 | xargs -0 clang-format --dry-run --Werror'
   coverage:
     name: Generate Code Coverage
     runs-on: ubuntu-latest

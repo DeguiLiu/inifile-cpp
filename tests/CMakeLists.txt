@@ -10,6 +10,11 @@ include_directories(
 add_executable(unit_tests
     "main.cpp"
     "test_inifile.cpp"
+    "test_convert.cpp"
+    "test_inifield.cpp"
+    "test_inisection.cpp"
+    "test_file_io.cpp"
+    "test_edge_cases.cpp"
 )
 target_link_libraries(unit_tests inicpp::inicpp)
 
