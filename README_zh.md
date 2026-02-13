@@ -1,7 +1,7 @@
 # inifile-cpp
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-[![CMake](https://github.com/DeguiLiu/inifile-cpp/actions/workflows/cmake.yml/badge.svg)](https://github.com/DeguiLiu/inifile-cpp/actions/workflows/cmake.yml)
+[![CI](https://github.com/DeguiLiu/inifile-cpp/actions/workflows/cmake.yml/badge.svg)](https://github.com/DeguiLiu/inifile-cpp/actions/workflows/cmake.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 [English](README.md)
 
@@ -38,7 +38,7 @@ int main()
 
     // 使用函数
     ini::IniFile myIni;
-    myIni.decode(is);
+    myIni.Decode(is);
 
     // 或使用构造函数
     ini::IniFile myIni2(is);
@@ -47,7 +47,7 @@ int main()
 
 ### 从文件加载
 
-使用 `load()` 函数直接从文件加载 INI 数据：
+使用 `Load()` 函数直接从文件加载 INI 数据：
 
 ```cpp
 #include <inicpp.h>
@@ -55,13 +55,13 @@ int main()
 int main()
 {
     ini::IniFile myIni;
-    myIni.load("config.ini");
+    myIni.Load("config.ini");
 }
 ```
 
 ### 多行值
 
-启用 `setMultiLineValues(true)` 后可以解析多行值。续行需要缩进，最终值中各行以 `\n` 分隔：
+启用 `SetMultiLineValues(true)` 后可以解析多行值。续行需要缩进，最终值中各行以 `\n` 分隔：
 
 ```cpp
 #include <inicpp.h>
@@ -69,14 +69,14 @@ int main()
 int main()
 {
     ini::IniFile myIni;
-    myIni.setMultiLineValues(true);
-    myIni.load("config.ini");
+    myIni.SetMultiLineValues(true);
+    myIni.Load("config.ini");
 }
 ```
 
 ### 重复字段处理
 
-默认情况下重复字段会覆盖之前的值。使用 `allowOverwriteDuplicateFields(false)` 可以禁止重复字段，遇到重复时抛出异常：
+默认情况下重复字段会覆盖之前的值。使用 `AllowOverwriteDuplicateFields(false)` 可以禁止重复字段，遇到重复时抛出异常：
 
 ```cpp
 #include <inicpp.h>
@@ -84,25 +84,25 @@ int main()
 int main()
 {
     ini::IniFile myIni;
-    myIni.allowOverwriteDuplicateFields(false);
+    myIni.AllowOverwriteDuplicateFields(false);
     // 如果 INI 文件中有重复字段则抛出异常
-    myIni.load("config.ini");
+    myIni.Load("config.ini");
 }
 ```
 
 ### 读取值
 
-使用下标运算符 `[]` 访问 Section 和字段，通过 `as<T>()` 进行类型转换：
+使用下标运算符 `[]` 访问 Section 和字段，通过 `As<T>()` 进行类型转换：
 
 ```cpp
-bool myBool = myIni["Foo"]["myBool"].as<bool>();
-char myChar = myIni["Foo"]["myChar"].as<char>();
-int myInt = myIni["Foo"]["myInt"].as<int>();
-unsigned int myUInt = myIni["Foo"]["myUInt"].as<unsigned int>();
-long myLong = myIni["Foo"]["myLong"].as<long>();
-float myFloat = myIni["Foo"]["myFloat"].as<float>();
-double myDouble = myIni["Foo"]["myDouble"].as<double>();
-std::string myStr = myIni["Foo"]["myStr"].as<std::string>();
+bool myBool = myIni["Foo"]["myBool"].As<bool>();
+char myChar = myIni["Foo"]["myChar"].As<char>();
+int myInt = myIni["Foo"]["myInt"].As<int>();
+unsigned int myUInt = myIni["Foo"]["myUInt"].As<unsigned int>();
+long myLong = myIni["Foo"]["myLong"].As<long>();
+float myFloat = myIni["Foo"]["myFloat"].As<float>();
+double myDouble = myIni["Foo"]["myDouble"].As<double>();
+std::string myStr = myIni["Foo"]["myStr"].As<std::string>();
 ```
 
 原生支持的类型：
@@ -134,7 +134,7 @@ int main()
     myIni["Foo"]["myBool"] = true;
     myIni["Bar"]["myDouble"] = 1.2;
 
-    myIni.save("output.ini");
+    myIni.Save("output.ini");
 }
 ```
 
@@ -148,7 +148,7 @@ namespace ini
     template<typename T>
     struct Convert<std::vector<T>>
     {
-        void decode(const std::string &value, std::vector<T> &result)
+        void Decode(const std::string &value, std::vector<T> &result)
         {
             result.clear();
             T decoded;
@@ -164,19 +164,19 @@ namespace ini
                     ? value.size() - startPos
                     : endPos - startPos;
                 Convert<T> conv;
-                conv.decode(value.substr(startPos, cnt), decoded);
+                conv.Decode(value.substr(startPos, cnt), decoded);
                 result.push_back(decoded);
             }
         }
 
-        void encode(const std::vector<T> &value, std::string &result)
+        void Encode(const std::vector<T> &value, std::string &result)
         {
             std::stringstream ss;
             for (size_t i = 0; i < value.size(); ++i)
             {
                 std::string encoded;
                 Convert<T> conv;
-                conv.encode(value[i], encoded);
+                conv.Encode(value[i], encoded);
                 ss << encoded;
                 if (i != value.size() - 1)
                     ss << ',';
@@ -193,11 +193,11 @@ namespace ini
 
 ```cpp
 ini::IniFileCaseInsensitive inif;
-inif.load("config.ini");
+inif.Load("config.ini");
 
 // 以下访问等价
-auto val1 = inif["SECTION"]["KEY"].as<std::string>();
-auto val2 = inif["section"]["key"].as<std::string>();
+auto val1 = inif["SECTION"]["KEY"].As<std::string>();
+auto val2 = inif["section"]["key"].As<std::string>();
 ```
 
 ## 文档

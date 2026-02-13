@@ -38,28 +38,28 @@ IniFile(std::istream &is,
 
 | Method | Description |
 |--------|-------------|
-| `void load(const std::string &fileName)` | Load and parse an INI file from disk |
-| `void save(const std::string &fileName) const` | Write the INI file to disk |
+| `void Load(const std::string &fileName)` | Load and parse an INI file from disk |
+| `void Save(const std::string &fileName) const` | Write the INI file to disk |
 
 ### Stream Operations
 
 | Method | Description |
 |--------|-------------|
-| `void decode(std::istream &is)` | Parse from an input stream |
-| `void decode(const std::string &content)` | Parse from a string |
-| `void encode(std::ostream &os) const` | Write to an output stream |
-| `std::string encode() const` | Encode to a string |
+| `void Decode(std::istream &is)` | Parse from an input stream |
+| `void Decode(const std::string &content)` | Parse from a string |
+| `void Encode(std::ostream &os) const` | Write to an output stream |
+| `std::string Encode() const` | Encode to a string |
 
 ### Configuration
 
 | Method | Default | Description |
 |--------|---------|-------------|
-| `void setFieldSep(char sep)` | `'='` | Set the key-value separator character |
-| `void setCommentChar(char comment)` | `'#'` | Set the comment prefix character |
-| `void setCommentPrefixes(const std::vector<std::string> &prefixes)` | `{"#", ";"}` | Set multiple comment prefix strings |
-| `void setEscapeChar(char esc)` | `'\\'` | Set the escape character |
-| `void setMultiLineValues(bool enable)` | `false` | Enable multi-line value parsing |
-| `void allowOverwriteDuplicateFields(bool allowed)` | `true` | Allow or reject duplicate fields |
+| `void SetFieldSep(char sep)` | `'='` | Set the key-value separator character |
+| `void SetCommentChar(char comment)` | `'#'` | Set the comment prefix character |
+| `void SetCommentPrefixes(const std::vector<std::string> &prefixes)` | `{"#", ";"}` | Set multiple comment prefix strings |
+| `void SetEscapeChar(char esc)` | `'\\'` | Set the escape character |
+| `void SetMultiLineValues(bool enable)` | `false` | Enable multi-line value parsing |
+| `void AllowOverwriteDuplicateFields(bool allowed)` | `true` | Allow or reject duplicate fields |
 
 ### Data Access
 
@@ -67,10 +67,10 @@ Since `IniFile` inherits from `std::map`, all standard map operations are availa
 
 ```cpp
 ini::IniFile inif;
-inif.load("config.ini");
+inif.Load("config.ini");
 
 // Access section and field
-std::string val = inif["Section"]["key"].as<std::string>();
+std::string val = inif["Section"]["key"].As<std::string>();
 
 // Check existence
 if (inif.find("Section") != inif.end()) { ... }
@@ -78,7 +78,7 @@ if (inif.find("Section") != inif.end()) { ... }
 // Iterate
 for (const auto &[secName, section] : inif) {
     for (const auto &[key, field] : section) {
-        std::cout << key << " = " << field.as<std::string>() << "\n";
+        std::cout << key << " = " << field.As<std::string>() << "\n";
     }
 }
 ```
@@ -91,14 +91,14 @@ Represents a single field value. Supports type-safe reading and writing.
 
 | Method | Description |
 |--------|-------------|
-| `template<typename T> T as() const` | Convert and return value as type T |
+| `template<typename T> T As() const` | Convert and return value as type T |
 | `template<typename T> IniField& operator=(const T &value)` | Assign a value of type T |
 
 ### Supported Types
 
-The following types can be used with `as<T>()` and `operator=`:
+The following types can be used with `As<T>()` and `operator=`:
 
-| Type | Read (`as<T>()`) | Write (`operator=`) |
+| Type | Read (`As<T>()`) | Write (`operator=`) |
 |------|:-:|:-:|
 | `bool` | Yes | Yes |
 | `char` | Yes | Yes |
@@ -129,10 +129,10 @@ Template functor for custom type conversions. Specialize this struct to add supp
 namespace ini {
     template<>
     struct Convert<MyType> {
-        void decode(const std::string &value, MyType &result) {
+        void Decode(const std::string &value, MyType &result) {
             // parse value into result
         }
-        void encode(const MyType &value, std::string &result) {
+        void Encode(const MyType &value, std::string &result) {
             // serialize value into result
         }
     };
@@ -158,7 +158,7 @@ boolean = true
 
 ### Multi-line Values
 
-When enabled via `setMultiLineValues(true)`, values can span multiple lines. Continuation lines must be indented:
+When enabled via `SetMultiLineValues(true)`, values can span multiple lines. Continuation lines must be indented:
 
 ```ini
 [Section]
@@ -186,7 +186,7 @@ This produces the value `"red # not a comment"`.
 
 | Function | Description |
 |----------|-------------|
-| `void ini::trim(std::string &str)` | Trim whitespace from both ends (in-place) |
+| `void ini::Trim(std::string &str)` | Trim whitespace from both ends (in-place) |
 
 ---
 

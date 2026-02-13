@@ -1,7 +1,7 @@
 # inifile-cpp
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
-[![CMake](https://github.com/DeguiLiu/inifile-cpp/actions/workflows/cmake.yml/badge.svg)](https://github.com/DeguiLiu/inifile-cpp/actions/workflows/cmake.yml)
+[![CI](https://github.com/DeguiLiu/inifile-cpp/actions/workflows/cmake.yml/badge.svg)](https://github.com/DeguiLiu/inifile-cpp/actions/workflows/cmake.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 [中文文档](README_zh.md)
 
@@ -37,14 +37,14 @@ int main()
 
     // use function
     ini::IniFile myFirstIni;
-    myFirstIni.decode(is);
+    myFirstIni.Decode(is);
 
     // or use the constructor
     ini::IniFile mySecondIni(is);
 }
 ```
 
-You can directly load ini-data from files by using the `load()` function. It requires a file path
+You can directly load ini-data from files by using the `Load()` function. It requires a file path
 and automatically parses its contents:
 
 ```cpp
@@ -54,11 +54,11 @@ int main()
 {
     // load an ini file
     ini::IniFile myIni;
-    myIni.load("some/ini/path");
+    myIni.Load("some/ini/path");
 }
 ```
 
-You can enable decoding of multi-line values using the `setMultiLineValues(true)` function.  If you do this, field values may be continued on the next line, after indentation.  Each line will be separated by the `\n` character in the final value, and the indentation will be removed.
+You can enable decoding of multi-line values using the `SetMultiLineValues(true)` function.  If you do this, field values may be continued on the next line, after indentation.  Each line will be separated by the `\n` character in the final value, and the indentation will be removed.
 
 ```cpp
 #include <inicpp.h>
@@ -67,12 +67,12 @@ int main()
 {
     // load an ini file
     ini::IniFile myIni;
-    myIni.setMultiLineValues(true);
-    myIni.load("some/ini/path");
+    myIni.SetMultiLineValues(true);
+    myIni.Load("some/ini/path");
 }
 ```
 
-When duplicate fields are decoded the previous value is simply overwritten by default. You can disallow duplicate fields from being overwritten by using the `allowOverwriteDuplicateFields(false)` function. If you do this, an exception will be thrown if a duplicate field is found inside a section.
+When duplicate fields are decoded the previous value is simply overwritten by default. You can disallow duplicate fields from being overwritten by using the `AllowOverwriteDuplicateFields(false)` function. If you do this, an exception will be thrown if a duplicate field is found inside a section.
 
 ```cpp
 #include <inicpp.h>
@@ -81,9 +81,9 @@ int main()
 {
     // load an ini file
     ini::IniFile myIni;
-    myIni.allowOverwriteDuplicateFields(false);
+    myIni.AllowOverwriteDuplicateFields(false);
     // throws an exception if the ini file has duplicate fields
-    myIni.load("some/ini/path");
+    myIni.Load("some/ini/path");
 }
 ```
 
@@ -91,17 +91,17 @@ Sections and fields can be accessed using the index operator `[]`.
 The values can be converted to various native types:
 
 ```cpp
-bool myBool = myIni["Foo"]["myBool"].as<bool>();
-char myChar = myIni["Foo"]["myChar"].as<char>();
-unsigned char myUChar = myIni["Foo"]["myUChar"].as<unsigned char>();
-int myInt = myIni["Foo"]["myInt"].as<int>();
-unsigned int myUInt = myIni["Foo"]["myUInt"].as<unsigned int>();
-long myLong = myIni["Foo"]["myLong"].as<long>();
-unsigned long myULong = myIni["Foo"]["myULong"].as<unsigned long>();
-float myFloat = myIni["Foo"]["myFloat"].as<float>();
-double myDouble = myIni["Foo"]["myDouble"].as<double>();
-std::string myStr = myIni["Foo"]["myStr"].as<std::string>();
-const char *myStr2 = myIni["Foo"]["myStr"].as<const char*>();
+bool myBool = myIni["Foo"]["myBool"].As<bool>();
+char myChar = myIni["Foo"]["myChar"].As<char>();
+unsigned char myUChar = myIni["Foo"]["myUChar"].As<unsigned char>();
+int myInt = myIni["Foo"]["myInt"].As<int>();
+unsigned int myUInt = myIni["Foo"]["myUInt"].As<unsigned int>();
+long myLong = myIni["Foo"]["myLong"].As<long>();
+unsigned long myULong = myIni["Foo"]["myULong"].As<unsigned long>();
+float myFloat = myIni["Foo"]["myFloat"].As<float>();
+double myDouble = myIni["Foo"]["myDouble"].As<double>();
+std::string myStr = myIni["Foo"]["myStr"].As<std::string>();
+const char *myStr2 = myIni["Foo"]["myStr"].As<const char*>();
 ```
 
 Natively supported types are:
@@ -140,11 +140,11 @@ int main()
     myIni["Foo"]["myBool"] = true;
     myIni["Bar"]["myDouble"] = 1.2;
 
-    myIni.encode(os);
+    myIni.Encode(os);
 }
 ```
 
-You can directly save ini-data to files by using the `save()` function. It requires a file path
+You can directly save ini-data to files by using the `Save()` function. It requires a file path
 and automatically stores the ini file contents:
 
 ```cpp
@@ -159,11 +159,11 @@ int main()
     myIni["Foo"]["myBool"] = true;
     myIni["Bar"]["myDouble"] = 1.2;
 
-    myIni.save("some/ini/path");
+    myIni.Save("some/ini/path");
 }
 ```
 
-You can define custom type conversions for inifile-cpp which will be automatically used by the assignment operator and the `as()` method of ini fields, e.g. you can add support for `std::vector` (see also examples):
+You can define custom type conversions for inifile-cpp which will be automatically used by the assignment operator and the `As()` method of ini fields, e.g. you can add support for `std::vector` (see also examples):
 
 ```cpp
 // the conversion functor must live in the "ini" namespace
@@ -175,7 +175,7 @@ namespace ini
     struct Convert<std::vector<T>>
     {
         /** Decodes a std::vector from a string. */
-        void decode(const std::string &value, std::vector<T> &result)
+        void Decode(const std::string &value, std::vector<T> &result)
         {
             result.clear();
 
@@ -205,14 +205,14 @@ namespace ini
                 // the vector, so the vector can use any type that
                 // is compatible with inifile-cpp
                 Convert<T> conv;
-                conv.decode(tmp, decoded);
+                conv.Decode(tmp, decoded);
                 result.push_back(decoded);
 
             }
         }
 
         /** Encodes a std::vector to a string. */
-        void encode(const std::vector<T> &value, std::string &result)
+        void Encode(const std::vector<T> &value, std::string &result)
         {
             // variable to store the encoded element value
             std::string encoded;
@@ -224,7 +224,7 @@ namespace ini
                 // the vector, so the vector can use any type that
                 // is compatible with inifile-cp
                 Convert<T> conv;
-                conv.encode(value[i], encoded);
+                conv.Encode(value[i], encoded);
                 ss << encoded;
 
                 // if this is not the last element add a comma as separator

@@ -49,15 +49,15 @@ IniField
          v
 +------------------+
 |   Convert<T>     |  模板仿函数
-|                  |  decode(): string -> T
-|                  |  encode(): T -> string
+|                  |  Decode(): string -> T
+|                  |  Encode(): T -> string
 +------------------+
 ```
 
 ### 数据流
 
 ```
-           load()/decode()                    save()/encode()
+           Load()/Decode()                    Save()/Encode()
 文件/流 ─────────────────> IniFileBase ────────────────────> 文件/流
                                 │
                     ┌───────────┼───────────┐
@@ -72,7 +72,7 @@ IniField
 
 ## 解析流程
 
-### decode() 状态机
+### Decode() 状态机
 
 ```
 START ──┬── 空行/注释行 ──> 跳过
@@ -102,8 +102,8 @@ START ──┬── 空行/注释行 ──> 跳过
 
 | 方法 | 功能 |
 |------|------|
-| `decode(const string&, T&)` | 字符串 -> 目标类型 |
-| `encode(const T&, string&)` | 目标类型 -> 字符串 |
+| `Decode(const string&, T&)` | 字符串 -> 目标类型 |
+| `Encode(const T&, string&)` | 目标类型 -> 字符串 |
 
 整数类型支持十进制、八进制（`0` 前缀）、十六进制（`0x` 前缀）三种格式。
 
@@ -138,7 +138,7 @@ key = value      ; key-value 对，用 = 分隔
 key2=value2      ; = 两侧空格可选
 
 [Section2]
-multi = line1    ; 多行值需启用 setMultiLineValues(true)
+multi = line1    ; 多行值需启用 SetMultiLineValues(true)
     line2        ; 续行需要缩进（空格或 Tab）
     line3
 
