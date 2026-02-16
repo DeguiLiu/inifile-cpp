@@ -133,6 +133,7 @@ TEST_CASE("many sections", "EdgeCase") {
  *          Error Handling
  ***************************************************/
 
+#if defined(__cpp_exceptions)
 TEST_CASE("fail to parse field before any section", "EdgeCase") {
   ini::IniFile inif;
   REQUIRE_THROWS(inif.Decode("orphan=value"));
@@ -158,6 +159,7 @@ TEST_CASE("duplicate field throws when disallowed", "EdgeCase") {
   inif.AllowOverwriteDuplicateFields(false);
   REQUIRE_THROWS(inif.Decode("[Sec]\nk=v1\nk=v2"));
 }
+#endif
 
 TEST_CASE("duplicate field overwrites when allowed", "EdgeCase") {
   ini::IniFile inif;

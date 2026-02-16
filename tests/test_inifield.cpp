@@ -65,12 +65,14 @@ TEST_CASE("IniField as<T> type conversion", "IniField") {
   REQUIRE(charField.As<char>() == 'x');
 }
 
+#if defined(__cpp_exceptions)
 TEST_CASE("IniField as<T> throws on invalid conversion", "IniField") {
   ini::IniField field("not_a_number");
   REQUIRE_THROWS(field.As<int>());
   REQUIRE_THROWS(field.As<double>());
   REQUIRE_THROWS(field.As<bool>());
 }
+#endif
 
 TEST_CASE("IniField overwrite preserves latest value", "IniField") {
   ini::IniField field;

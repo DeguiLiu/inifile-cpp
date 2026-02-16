@@ -46,6 +46,7 @@ TEST_CASE("convert bool decode false variants", "Convert") {
   REQUIRE(result == false);
 }
 
+#if defined(__cpp_exceptions)
 TEST_CASE("convert bool decode invalid throws", "Convert") {
   ini::Convert<bool> conv;
   bool result;
@@ -56,6 +57,7 @@ TEST_CASE("convert bool decode invalid throws", "Convert") {
   REQUIRE_THROWS_AS(conv.Decode("0", result), std::invalid_argument);
   REQUIRE_THROWS_AS(conv.Decode("", result), std::invalid_argument);
 }
+#endif
 
 TEST_CASE("convert bool encode", "Convert") {
   ini::Convert<bool> conv;
@@ -149,6 +151,7 @@ TEST_CASE("convert int decode octal prefix", "Convert") {
   REQUIRE(result == 77);
 }
 
+#if defined(__cpp_exceptions)
 TEST_CASE("convert int decode invalid throws", "Convert") {
   ini::Convert<int> conv;
   int result;
@@ -158,6 +161,7 @@ TEST_CASE("convert int decode invalid throws", "Convert") {
   REQUIRE_THROWS_AS(conv.Decode("12.5", result), std::invalid_argument);
   REQUIRE_THROWS_AS(conv.Decode("xyz", result), std::invalid_argument);
 }
+#endif
 
 TEST_CASE("convert int encode", "Convert") {
   ini::Convert<int> conv;
@@ -236,12 +240,14 @@ TEST_CASE("convert long decode and encode", "Convert") {
   REQUIRE(encoded == "12345");
 }
 
+#if defined(__cpp_exceptions)
 TEST_CASE("convert long decode invalid throws", "Convert") {
   ini::Convert<long> conv;
   long result;
 
   REQUIRE_THROWS_AS(conv.Decode("not_a_number", result), std::invalid_argument);
 }
+#endif
 
 TEST_CASE("convert unsigned long decode and encode", "Convert") {
   ini::Convert<unsigned long> conv;
@@ -255,12 +261,14 @@ TEST_CASE("convert unsigned long decode and encode", "Convert") {
   REQUIRE(encoded == "9999");
 }
 
+#if defined(__cpp_exceptions)
 TEST_CASE("convert unsigned long decode invalid throws", "Convert") {
   ini::Convert<unsigned long> conv;
   unsigned long result;
 
   REQUIRE_THROWS_AS(conv.Decode("xyz", result), std::invalid_argument);
 }
+#endif
 
 /***************************************************
  *          Convert<double> Tests
@@ -283,12 +291,14 @@ TEST_CASE("convert double decode", "Convert") {
   REQUIRE(result == Approx(0.0));
 }
 
+#if defined(__cpp_exceptions)
 TEST_CASE("convert double decode invalid throws", "Convert") {
   ini::Convert<double> conv;
   double result;
 
   REQUIRE_THROWS(conv.Decode("not_a_double", result));
 }
+#endif
 
 TEST_CASE("convert double encode", "Convert") {
   ini::Convert<double> conv;

@@ -746,6 +746,7 @@ TEST_CASE("trim() works with untrimmed strings", "TrimFunction") {
  *                Failing Tests
  ***************************************************/
 
+#if defined(__cpp_exceptions)
 TEST_CASE("fail to load unclosed section", "IniFile") {
   ini::IniFile inif;
   REQUIRE_THROWS(inif.Decode("[Foo\nbar=bla"));
@@ -811,6 +812,7 @@ TEST_CASE("fail to parse field without section", "IniFile") {
   ini::IniFile inif;
   REQUIRE_THROWS(inif.Decode("bar=bla"));
 }
+#endif
 
 TEST_CASE("spaces are not taken into account in field names", "IniFile") {
   std::istringstream ss(("[Foo]\n  \t  bar  \t  =hello world"));
@@ -834,8 +836,10 @@ TEST_CASE("spaces are not taken into account in sections", "IniFile") {
   REQUIRE(inif.find("Foo") != inif.end());
 }
 
+#if defined(__cpp_exceptions)
 TEST_CASE("parse section with duplicate field and overwriteDuplicateFields_ set to false", "IniFile") {
   ini::IniFile inif;
   inif.AllowOverwriteDuplicateFields(false);
   REQUIRE_THROWS(inif.Decode("[Foo]\nbar=hello\nbar=world"));
 }
+#endif
